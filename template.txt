@@ -1,0 +1,43 @@
+# Single Line Comments
+
+/* This is a multi-line Comment
+It will span multiple lines */
+
+TYPE name = VALUE; Semi-colon separated
+
+Ex.
+    INT fizz = 0;
+    fizz := 1;
+
+    // Throw Error if invalid type recasting
+
+    INT fizz = 0;
+    fiz := 'one'
+    ***ERROR: invalid type reassignment
+
+name := newValue; reassignment operator. 
+
+returnValue || optionalRetrunValue ? anyReturnValue name (args, ?optional arguments){
+    // Code goes here
+}
+
+Ex:
+    INT || CHAR Foo(x,?y){
+        return Bar
+    }
+
+    OR
+
+    ? Foo(?x,?y){
+        return CHAR, STRING, FLOAT, INT, etc
+    }
+        
+
+Arrays must have same types;
+
+Ex. 
+    [1,2,3,4,5]
+    ['F','O','O','B','A','R']
+    
+
+User Defined Structures;
