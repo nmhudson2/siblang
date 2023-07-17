@@ -1,0 +1,54 @@
+# Single Line Comments
+
+/* This is a multi-line Comment
+It will span multiple lines */
+
+# Semi-colon separated lines
+# Supports imports from other sibH files, similar to PHP templates
+
+Ex.
+    import header from './header.sibH' as @HEADER;
+
+# NO VAR DECLARATIONS IN THESE FILES!!!!!
+
+# functional language only, there are no variable declarations, only references to variables found in SibS
+# Nested Functions represent child elements
+
+#reference to variables will be done with @{VARNAME}
+
+# Function return html tag, and the contents of the function are the html element.
+
+Ex.
+    TAG (ID->)'name'(attrs) extends: className{
+        # Define attribites first
+        attrs{
+            . . . 
+        }
+        #define inner content
+        inner{
+           " lorem ipsum dolor sit amet, consectetur @{VARNAME} elit, sed do eiusmod tempor incididunt"
+        }
+    }
+
+Ex. 
+#Single Element Function
+    a googleLink(href, name, target, . . . ) extends: Link{
+        attrs{
+            href = "https://www.google.com";
+            name = "theLink"
+            target = "_blank";
+        }
+
+        inner{
+            Click here!
+        }
+    }
+
+    # Should Render
+
+    <a href="http://google.com" target="_blank" name="theLink" id="googleLink">Click here!</a>
+
+    # plus whatever styling the 'Link' class has
+
+# Nested Element Functions
+    ol 
