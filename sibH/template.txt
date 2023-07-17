@@ -18,6 +18,31 @@ Ex.
 
 # Function return html tag, and the contents of the function are the html element.
 
+# User Defined templates
+
+temp (attr1, attr2, attr3, . . . ) extends: className{
+         attrs{
+         href = "https://www.google.com";
+         name = "theLink"
+         target = "_blank";
+    }
+
+    inner{
+         . . . 
+    }
+}
+
+Ex. 
+
+    li (){
+        attrs{
+
+        }
+        inner{
+            
+        }
+    }
+
 Ex.
     TAG (ID->)'name'(attrs) extends: className{
         # Define attribites first
