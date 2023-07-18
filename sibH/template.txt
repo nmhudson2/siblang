@@ -53,6 +53,7 @@ Ex.
         inner{
            " lorem ipsum dolor sit amet, consectetur @{VARNAME} elit, sed do eiusmod tempor incididunt"
         }
+        return EL
     }
 
 Ex. 
@@ -67,6 +68,7 @@ Ex.
         inner{
             Click here!
         }
+        return EL
     }
 
     # Should Render

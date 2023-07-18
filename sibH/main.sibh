@@ -1,0 +1,12 @@
+a googleLink(href, name, target, . . . ) extends: Link{
+        attrs{
+            href = "https://www.google.com";
+            name = "theLink"
+            target = "_blank";
+        }
+
+        inner{
+            Click here!
+        }
+        return EL
+    }
