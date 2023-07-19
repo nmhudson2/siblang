@@ -8,5 +8,5 @@ a googleLink(href, name, target, . . . ) extends: Link{
         inner{
             Click here!
         }
-        return EL
+        return a
     }

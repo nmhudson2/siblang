@@ -2,11 +2,14 @@ import os
 import sys
 import json
 import errno
+import string
+import re
 
 # Global variables
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 tStack = []
 cStack = []
+vStack= []
 
 # Verifies that the configuration file exists
 
@@ -131,48 +134,52 @@ tags = [
     '<dialog>'
 ]
 
-closures = {
-    '(': ')',
-    '{': '}'
-}
-op = ';'
+openers = ['[','{','(']
+closers = [']','}',')']
+breaks = [':',";"]
+chars = ["'",'"',".",","]
 selector = '@'
 
+nonLetters = [openers,closers,breaks,chars,selector]
 
-# def consume(word):
-#     for letter in word.split:
+whitespaces = string.whitespace
 
+def createStack(file):
+    with open(file, 'r')as f:
+        for line in f:
+            for letter in line:
+                temp = ''
+                temp+= letter        
+                cStack.append(temp)
+        return cStack
+    
+def tokenize(cStack):
+    for item in cStack:
+        if ord(item) != 32: #letters and numbers and characters
+            tStack.append(item)
+        if ord (item) == 32 or ord(item) == 10:
+            temp = (''.join(tStack).strip(whitespaces))
+            vStack.append(temp)
+            temp = ''
+            tStack.clear()
 
-# class element:
-#     def __init__(self, ID, params):
-#         self.ID = ID
-#         self.params = params
+    # temp = (''.join(tStack).strip(whitespaces))
+    
+    
 
-
-# class Token:
-#     def __init__(self, text, nextVal):
-#         self.text = text
-#         self.nextVal = nextVal
-
-# def consumeToken():
-#     cur = 0
-#     next = cur + 1
 
 
 def main():
     if (input_file_exists(entry_file)):  # Success
         file = os.path.join(ROOT_DIR, entry_file)
         try:
-            with open(file, 'r')as f:
-                for line in f:
-                    for word in line:
-                        print(word.split())
-
+            createStack(file)
+            
+            print(tokenize(cStack))
             return sys.exit(0)
         except Exception as e:
             raise e
     else:  # Failure
         return sys.exit(1)
-
 
 main()
