@@ -45,95 +45,6 @@ def input_file_exists(entry_file):
             errno.ENOENT, os.strerror(errno.ENOENT), file
         )
 
-
-tags = [
-    '<!DOCTYPE>',
-    '<html>',
-    '<head>',
-    '<title>',
-    '<meta>',
-    '<link>',
-    '<script>',
-    '<style>',
-    '<body>',
-    '<h1>',
-    '<h2>',
-    '<h3>',
-    '<h4>',
-    '<h5>',
-    '<h6>',
-    '<p>',
-    '<br>',
-    '<hr>',
-    '<a>',
-    '<img>',
-    '<ul>',
-    '<ol>',
-    '<li>',
-    '<dl>',
-    '<dt>',
-    '<dd>',
-    '<table>',
-    '<tr>',
-    '<th>',
-    '<td>',
-    '<thead>',
-    '<tbody>',
-    '<tfoot>',
-    '<caption>',
-    '<div>',
-    '<span>',
-    '<form>',
-    '<input>',
-    '<textarea>',
-    '<button>',
-    '<select>',
-    '<option>',
-    '<label>',
-    '<fieldset>',
-    '<legend>',
-    '<iframe>',
-    '<audio>',
-    '<video>',
-    '<canvas>',
-    '<svg>',
-    '<nav>',
-    '<header>',
-    '<footer>',
-    '<section>',
-    '<article>',
-    '<aside>',
-    '<main>',
-    '<address>',
-    '<time>',
-    '<abbr>',
-    '<blockquote>',
-    '<q>',
-    '<cite>',
-    '<em>',
-    '<strong>',
-    '<i>',
-    '<b>',
-    '<s>',
-    '<u>',
-    '<sub>',
-    '<sup>',
-    '<code>',
-    '<pre>',
-    '<small>',
-    '<big>',
-    '<mark>',
-    '<del>',
-    '<ins>',
-    '<progress>',
-    '<meter>',
-    '<details>',
-    '<summary>',
-    '<menu>',
-    '<menuitem>',
-    '<dialog>'
-]
-
 openers = ['[','{','(']
 closers = [']','}',')']
 breaks = [':',";"]
@@ -144,6 +55,7 @@ nonLetters = [openers,closers,breaks,chars,selector]
 
 whitespaces = string.whitespace
 
+# Creates a set of every character in the input file
 def createStack(file):
     with open(file, 'r')as f:
         for line in f:
@@ -152,13 +64,15 @@ def createStack(file):
                 temp+= letter        
                 cStack.append(temp)
         return cStack
-    
+
+
+# Tokenizes words and special characters
 def tokenize(cStack):
-    print(f'Current cStack: {cStack}')
     for item in cStack:
         if ord(item) != 32 and ord(item) != 40 and ord(item) != 41 and ord(item) != 123 and ord(item) != 125 : #letters and numbers and 
             tStack.append(item)
-        if ord(item) == 40:
+            
+        if ord(item) == 40 or ord(item) == 41 or ord(item) == 123 or ord(item) == 125:
             temp = (''.join(tStack).strip(whitespaces))
             vStack.append(temp)
             temp = ''
@@ -168,19 +82,13 @@ def tokenize(cStack):
             vStack.append(temp)
             temp = ''
             tStack.clear()
-        if ord(item) == 41 or ord(item) == 123 or ord(item) == 125:
-            temp = (''.join(tStack).strip(whitespaces))
-            vStack.append(temp)
-            temp = ''
-            tStack.clear()
-            tStack.append(item)
         if ord (item) == 32 or ord(item) == 10:
             temp = (''.join(tStack).strip(whitespaces))
             vStack.append(temp)
             temp = ''
             tStack.clear()
-    print('\n\n\n\n')
-    print(f'Current vStack: {vStack}')
+        
+    return vStack
     
     
     
@@ -193,7 +101,7 @@ def main():
         try:
             createStack(file)
             tokenize(cStack)
-            
+            print(vStack)
             return sys.exit(0)
         except Exception as e:
             raise e
