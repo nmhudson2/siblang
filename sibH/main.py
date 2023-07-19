@@ -154,16 +154,34 @@ def createStack(file):
         return cStack
     
 def tokenize(cStack):
+    print(f'Current cStack: {cStack}')
     for item in cStack:
-        if ord(item) != 32: #letters and numbers and characters
+        if ord(item) != 32 and ord(item) != 40 and ord(item) != 41 and ord(item) != 123 and ord(item) != 125 : #letters and numbers and 
+            tStack.append(item)
+        if ord(item) == 40:
+            temp = (''.join(tStack).strip(whitespaces))
+            vStack.append(temp)
+            temp = ''
+            tStack.clear()
+            tStack.append(item)
+            temp = (''.join(tStack).strip(whitespaces))
+            vStack.append(temp)
+            temp = ''
+            tStack.clear()
+        if ord(item) == 41 or ord(item) == 123 or ord(item) == 125:
+            temp = (''.join(tStack).strip(whitespaces))
+            vStack.append(temp)
+            temp = ''
+            tStack.clear()
             tStack.append(item)
         if ord (item) == 32 or ord(item) == 10:
             temp = (''.join(tStack).strip(whitespaces))
             vStack.append(temp)
             temp = ''
             tStack.clear()
-
-    # temp = (''.join(tStack).strip(whitespaces))
+    print('\n\n\n\n')
+    print(f'Current vStack: {vStack}')
+    
     
     
 
@@ -174,8 +192,8 @@ def main():
         file = os.path.join(ROOT_DIR, entry_file)
         try:
             createStack(file)
+            tokenize(cStack)
             
-            print(tokenize(cStack))
             return sys.exit(0)
         except Exception as e:
             raise e
