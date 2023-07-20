@@ -6,13 +6,13 @@ a googleLink(href, name, target, . . . ) extends: Link{
         }
 
         inner{
-            Click here!
+            'Click here!'
         }
         return a
     }
 
 h1 header() extends: bodyText{
     inner{
-        Hello @{name}!
+        Hello @{name} 999990
     }
 }
