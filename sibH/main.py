@@ -5,6 +5,11 @@ import errno
 import string
 import re
 
+# Add syntax errors
+# Add incorrect return type errors
+# Add Commments 
+# 
+
 # Global variables
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 tStack = []
@@ -50,9 +55,12 @@ closers = [']','}',')']
 breaks = [':',";"]
 chars = ["'",'"',".",","]
 selector = '@'
-special = ["!","#","$","%","^","&","*"]
+special = ["!","$","%","^","&","*"]
+slComment = '#'
+mlCommentOpen = "/*"
+mlCommmentClose = '*/'
 
-functions= ['attrs','inner']
+keywords = ['attrs','inner', 'extends','return']
 
 tags=["!DOCTYPE",
 "html",
@@ -189,8 +197,8 @@ def tokenize(cStack):
     return vStack
 
 def setType(cont):
-            if cont in functions:
-                return 'Functiion'
+            if cont in keywords:
+                return 'Keyword'
             elif cont in tags:
                 return 'Tag'
             elif cont in openers:
@@ -235,15 +243,12 @@ def GenTok(vStack):
         vStack.append(i)
     return vStack 
 
-# def genComps(vStack):
-#     counter = 0
-#     temp = []
-#     for i in vStack:
-#         if i in tags:
-#             j = tag(tags[counter])
-#             temp.append(j)
-#         counter+=1
-#     return temp
+def genComps(vStack):
+    counter = 0
+    for token in vStack:
+        if token.typeOf == 'Tag':
+            print(f'{True}, {token.cont}')
+    return vStack
     
 class Token:
     def __init__(self,cont, prevT,nextT, typeOf):
@@ -254,10 +259,6 @@ class Token:
     def __repr__(self) -> str:
         return f'Token is:   -  {self.cont}  -   , \t , Previous is {self.prevT} , \t , Next is {self.nextT}, \t ,Type is: {self.typeOf} \n\n'
 
-class tag:
-    def __init__(self, tag) -> None:
-        self.tag = tag
-
 
 class Element():
     def __init__(self, tag, ELid,attributes,innercontent, ELclass):
@@ -266,8 +267,8 @@ class Element():
         self.attrubtes = attributes
         self.innerContent = innercontent
         self.ELclass = ELclass
-    def genEL(tag, ELid,attributes,innercontent, ELclass):
-        return f'<{tag} id={ELid} class={ELclass} {attributes}>{innercontent}</{tag}'
+def genEL(tag, ELid,attributes,innercontent, ELclass):
+    return f'<{tag} id={ELid} class={ELclass} {attributes}>{innercontent}</{tag}>'
         
 
 
@@ -278,7 +279,7 @@ def main():
             createStack(file)
             tokenize(cStack)
             GenTok(vStack)
-            # genComps(vStack)
+            genComps(vStack)
             print(vStack)
             # code to write out to html file here
             return sys.exit(0)
