@@ -68,7 +68,6 @@ Ex.
         inner{
             Click here!
         }
-        return EL
     }
 
     # Should Render

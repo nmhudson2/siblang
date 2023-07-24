@@ -8,7 +8,7 @@ a googleLink(href, name, target, . . . ) extends: Link{
         inner{
             'Click here!'
         }
-        return a
+        
     }
 
 h1 header() extends: bodyText{
