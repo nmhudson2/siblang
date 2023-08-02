@@ -3,6 +3,7 @@ import sys
 import json
 import errno
 import string
+import asyncio
 import re
 
 # Add syntax errors
@@ -17,6 +18,8 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 tStack = []
 cStack = []
 vStack = []
+eStack = []
+gCounter = 0
 
 # Verifies that the configuration file exists
 
@@ -52,6 +55,19 @@ def input_file_exists(entry_file):
             errno.ENOENT, os.strerror(errno.ENOENT), file
         )
 
+# Turn these into KV pairs
+params = {
+    '(':')',
+}
+stmt = {
+    '{':'}'
+}
+attrs = {
+    '{':'}'
+}
+inner = {
+    '{':'}'
+}
 
 openers = ['[', '{', '(']
 closers = [']', '}', ')']
@@ -265,13 +281,29 @@ def GenTok(vStack):
     return vStack
 
 
-def genComps(vStack):
-    counter = 0
-    for token in vStack:
-        if token.typeOf == 'Tag':
-            print(f'{True}, {token.cont}')
-    return vStack
+# def genComps(vStack):
+#     counter = 0
+#     for token in vStack:
+#         if token.typeOf == 'Tag':
+#             print(f'{True}, {token.cont}')
+#     return vStack
 
+def genSatements(vStack):
+    counter = 0
+    freeze = 0
+    while counter < len(vStack):
+        if vStack[counter].typeOf == 'Tag':
+            if vStack[counter+1].typeOf == 'Tag':
+                vStack[counter+1].typeof = 'Keyword'
+            print (f'Statement found at index: {counter}, {vStack[counter].cont}, {vStack[counter].typeOf}')
+            counter +=1
+        else:
+            counter +=1
+
+# def startStatement(token,gCounter):
+
+
+# def endStatement(vStack):
 
 class Token:
     def __init__(self, cont, prevT, nextT, typeOf):
@@ -283,6 +315,7 @@ class Token:
     def __repr__(self) -> str:
         return f'Token is:   -  {self.cont}  -   , \t , Previous is {self.prevT} , \t , Next is {self.nextT}, \t ,Type is: {self.typeOf} \n\n'
 
+        
 
 class Element():
     def __init__(self, tag, ELid, attributes, innercontent, ELclass):
@@ -304,8 +337,9 @@ def main():
             createStack(file)
             tokenize(cStack)
             GenTok(vStack)
-            genComps(vStack)
-            print(vStack)
+            #genComps(vStack)
+            #genSatements(vStack)
+            print(genSatements(vStack))
             # code to write out to html file here
             return sys.exit(0)
         except Exception as e:
